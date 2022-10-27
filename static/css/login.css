@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap');
+/*     	Login     */
+body {
+	min-height: 100vh;
+	position: relative;
+	background: #f9fbfd;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+}
+
+
+
+
+.signin {
+	background: #efefee;
+}
+.signin .login_area{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: unset;
+	padding: 15px;
+}
+.login_area {
+	min-height: 100vh;
+	position: relative;
+	top: 0;
+	height: 100vh;
+}
+.signin-container{
+	width: 40rem;
+	padding: 30px 25px 0;
+	border-radius: 5px;
+	border-bottom: 4px solid #1472e8;
+}
+.signin .login_area .signin-container:not(.container-transparent) {
+	background: #ffffff;
+	-webkit-box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+	-moz-box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+	box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.03);
+	border: 1px solid #ebecec;
+	border-bottom: 5px solid #1572e8;
+}
+.fadeIn {
+	-webkit-animation-name: fadeIn;
+	animation-name: fadeIn;
+}
+ 
+.signin .login_area .signin-container h3{
+	font-size: 19px;
+	font-weight: 600;
+	margin-bottom: 25px;
+}	
+	
+.signin .card-header{
+	background-color: #fff !important;
+	padding: 0 0;
+}
+	
+	.form-sub{
+		align-items: center;
+		justify-content: space-between;
+		padding: 8px 10px;
+	}
+	.btn-login{
+		padding: 15px 0;
+		width: 135px;
+	}
+	.form-action {
+		text-align: center;
+		padding: 25px 10px 0;
+	}
+	.form-action-d-flex{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	
+	.custom-control-label{
+		white-space: nowrap;
+	}
+	.reset_pw{		
+		text-align: right;
+	}
+
+@media screen and (max-width: 576px){
+	.form-action-d-flex{
+		flex-direction: column;
+		align-items: start !important;
+	}
+	
+	.title {
+		font-size: 24px;
+	}
+	.subtitle {
+		font-size: 16px;
+	}
+	.reset_pw{		
+		text-align: left !important;
+		margin-top: 1rem;
+	}
+	.reset_pw a:hover, .reset_pw a:focus, reset_pw a:active{
+		text-decoration: underline;
+	}
+}
+
+@media screen and (max-width: 399px){
+	
+	.signin-container{
+		width: 100% !important;
+		padding: 60px 15px !important;
+	}
+	.reset_pw{
+		text-align: center !important;
+	}
+}

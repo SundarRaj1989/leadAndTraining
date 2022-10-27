@@ -1,0 +1,122 @@
+{% extends "index.html" %}
+
+{% block trainer_profile %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">Trainer Profile</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Communication & Status</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Trainer Profile</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row ">
+              <div class="col-md-4">
+                
+                    <div class="card">
+                      <div class="card-body text-center">
+                        <div class="avatar avatar-xxl">
+                          <img src="../static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                        </div>
+                        {% for t in trainer_info %}
+                        <h2 class="text-primary">{{t['first_name']|upper}} {{t['last_name']|upper}}</h2>
+                        <h5>{{t['designation']}}</h5>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  
+
+                 
+                    <!-- <div class="card">
+                      <div class="card-body">
+                        <h4>test</h4>
+                      </div>
+                    </div> -->
+              </div>
+              <div class="col-md-8">
+                  <div class="card">
+                    <div class="card-body">
+                      <table class="table mt-3">
+                        {% for x in trainer_info %}
+                        <tbody>
+                          <tr>
+                            <th scope="col-4">Trainer Id</th>
+                            <td scope="col-8">{{x['trainer_id']}}</td>
+                          </tr>
+                          <tr>
+                            <th >Name</th>
+                            <td >{{x['first_name']}} {{x['last_name']}}</td>
+                          </tr>
+
+                          <tr>
+                            <th >Email</th>
+                            <td >{{x['email_id']}}</td>
+                          </tr>
+                          <tr>
+                            <th >Contact Number</th>
+                            <td >{{x['Contact_num']}}</td>
+                          </tr>
+
+                          <tr>
+                            <th >Address</th>
+                            <td >{{x['city']}}, {{x['state']}}, {{x['country']}}</td>
+                          </tr>
+                          <tr>
+                            <th >Registration Date</th>
+                            <td >{{x['trainer_registration_date']}}</td>
+                          </tr>
+
+                          <tr>
+                            <th >Specialization</th>
+
+                            <td >
+                              {{x['product']}}
+                            </td>
+                          </tr>
+                        </tbody>
+                        {% endfor %}
+                        
+                      </table>
+                    </div>
+                  </div>
+              </div>
+                  
+                   
+              
+          </div>
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+
+{% endblock %}

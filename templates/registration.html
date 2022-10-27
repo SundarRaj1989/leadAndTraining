@@ -1,0 +1,123 @@
+{% extends "index.html" %}
+
+{% block registration %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">Registrations</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Lead & Training</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Registrations</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row">
+              <div class="col-md-12 ml-auto mr-auto">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-title">Registration</div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                          <thead class="bg bg-info text-light">
+                            <tr>
+                              <th>Company Name</th>
+                              <th>Contact Person</th>
+                              <th>Email Id</th>
+                              <th>Mobile Number</th>
+                              <th>Address</th>
+                              <th>No of people joining</th>
+                              <th>Registration date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          
+                          <!-- <tfoot>
+                            <tr>
+                              <th>Product Id</th>
+                              <th>Product Name</th>
+                              <th>Product Price</th>
+                              <th>Product_Creation_Date</th>
+                            </tr>
+                          </tfoot> -->
+
+                          <tbody>
+                            {% for x in reg_data %}
+                            <tr>
+                              <td>{{x['company_name']}}</td>
+                              <td>{{x['first_name']}} {{x['last_name']}}</td>
+                              <td>{{x['email']}}</td>
+                              <td>{{x['mobile_number']}}</td> 
+                              <td>{{x['city']}}, {{x['state']}}, {{x['country']}}</td>
+                              <td>{{x['num_of_people_joining']}}</td>
+                              <td>{{x['registration_date_time']}}      
+                              <td>
+                                <form action="" method="post">
+                                <button type="submit" class="btn btn-icon btn-round btn-sm btn-success mr-2" data-toggle="tooltip" title="" data-original-title="Edit a trainer">
+                                  <i class="fa fa-edit"></i>
+                                </button>                                
+                              </form>
+                              </td>             
+                            </tr>
+                            {% endfor %}
+                            
+                          </tbody>
+                          
+                          
+                        </table>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                   
+              </div>
+          </div>
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+  $(document).ready(function() {
+    $('#basic-datatables').DataTable({
+    });
+  });
+</script>
+{% endblock %}

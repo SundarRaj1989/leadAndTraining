@@ -1,0 +1,257 @@
+{% extends "index.html" %}
+
+{% block processed %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">Processed</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Lead & Training</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Processed</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row">
+              <div class="col-md-12 ml-auto mr-auto">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-title">Verified Pre-orders</div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                          <thead class="bg bg-info text-light">
+                            <tr>
+                              <th>Company Name</th>
+                              <th>Email Id</th>
+                              <th>Product Name</th>
+                              <th>Payment Confirmation Date</th>
+                              <th>Estimated Delivery Month</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          
+                          
+
+                          <tbody>
+                            {% for x in vip_list %}
+                            {% if x['onboarded'] == false %}
+                            <tr>
+                              <td>{{x['company_name']}}</td>
+                              <td>{{x['email_id']}}</td>
+                              <td>{{x['product_name']}}</td>
+                              <td>{{x['payment_confirmation_date']}}</td>
+                              <td>{{x['estimated_delivery_month']}}</td>        
+                              <td>
+                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#{{x['preOrder_id']}}">
+                                  View
+                                </button>
+                              </td>             
+                            </tr>
+                            {% endif %}
+                            <div class="modal fade" id="{{x['preOrder_id']}}">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h4 class="modal-title">On Boarding <strong>{{x['company_name']|upper}}</strong></h4>
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+            
+                                
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                  <div class="row">
+                                    <div class="col-lg-6">
+                                      <h5>Company Name : <span class="font-weight-bold">{{x['company_name']}}</h5>
+                                      <h5>Email Id : <span class="font-weight-bold">{{x['email_id']}}</h5>
+                                      <h5>Mobile Number : <span class="font-weight-bold">{{x['contact_number']}}</h5>
+                                      <h5>Address : <span class="font-weight-bold">{{x['city']}}, {{x['state']}}, {{x['country']}}</h5>
+                                      <h5>Product : <span class="font-weight-bold">{{x['product_name']}}</h5>
+                                      <h5>Payment Clearance : <span class="font-weight-bold">{{x['payment_clearance']}}</h5>
+                                      <h5>Payment confirmation date : <span class="font-weight-bold">{{x['payment_confirmation_date']}}</h5>
+                                      <h5>Estimated Delivery Month : <span class="font-weight-bold">{{x['estimated_delivery_month']}}</h5>
+                                    </div>
+
+                                    <div class="col-lg-6 border-left pl-4">
+                                      <form action="/onboard/{{x['preOrder_id']}}" method="post">
+                                        <div class="row">
+                                          <div class="col-12">
+                                            <div class="form-group">
+                                              <label for="ob_date">Schedule Onboarding</label>
+                                              <input type="date" class="form-control" id="ob_date" name="ob_date" placeholder="select Date">                                          
+                                            </div>
+                                          </div>
+                                          <div class="col-4">
+                                            
+                                            <div class="form-group">
+                                              <select class="form-control" id="ob_time_hr" name="ob_time_hr">
+                                                <option>Hour</option>
+                                                {% for i in range(1, 13) %}
+                                                <option value="{{i}}">{{i}}</option>      
+                                                {% endfor %}                                      
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-4">
+                                            <div class="form-group">
+                                              <select class="form-control" id="ob_time_mnt" name="ob_time_mnt">
+                                                <option value="00">00</option>                         
+                                                <option value="15">15</option>                         
+                                                <option value="30">30</option>                         
+                                                <option value="45">45</option>                         
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-4">
+                                            <div class="form-group">
+
+                                              <select class="form-control" id="ob_time_prt" name="ob_time_prt">  
+                                                <option>Select Time Format</option>
+                                                <option value="AM">AM</option>      
+                                                <option value="PM">PM</option>      
+                                                
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-12">
+                                            <div class="form-group">
+                                            <select class="form-control" id="trainer" name="trainer">                                                
+                                              <option>Select Trainer</option>   
+                                              {% for tr in all_trainer %}   
+                                                <option value="{{tr['trainer_id']}}">{{tr['first_name']}} {{tr['last_name']}}</option>    
+                                              {% endfor %}  
+                                              
+                                            </select>
+                                          </div>
+                                          </div>
+                                        </div>
+                                        
+                                        
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-success btn-sm">Onboard</button>
+                                    <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Cancel</button>
+                                </div>
+                              </form>
+                                </div>
+                              </div>
+                              </div>
+                            {% endfor %}
+                            
+                          </tbody>
+                          
+                          
+                        </table>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                   
+              </div>
+
+
+              <!-- <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">Onboarded</div>
+                  </div>
+
+                  <div class="card-body">
+                    {% for ob in vip_list %}
+                      {% if ob['onboarded'] == true %}
+                        
+                        <div class="d-flex pb-4 ">
+                          <div class="avatar">
+                            <h6 class="avatar-title rounded-circle border fw-bold bg-dark">{{ob['company_name'][0]|upper}}</h6>                        
+                          </div>
+  
+                          <div class="flex-1 ml-3 pt-1">
+                            <h6 class="text-uppercase fw-bold mb-1">{{ob['company_name']}}</h6> 
+                            <span class="text-info">{{ob['product_name']}}</span>
+                          </div>
+                          <div class="float-right pt-1">
+                            <small class="text-success">{{ob['onboard_date']}} {{ob['onboard_time']}}</small>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </div>
+              </div> -->
+
+              <!-- <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">wait list of onboarding</div>
+                  </div>
+
+                  <div class="card-body">
+                    
+                  </div>
+                </div>
+              </div> -->
+          </div>
+
+
+
+
+
+          
+
+
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+  $(document).ready(function() {
+    $('#basic-datatables').DataTable({
+    });
+  });
+</script>
+
+{% endblock %}

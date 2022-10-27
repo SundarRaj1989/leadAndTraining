@@ -1,0 +1,224 @@
+{% extends "index.html" %}
+
+{% block dashboard %}
+
+<div class="main-panel">
+  <div class="content">
+
+
+    <div class="panel-header bg-primary-gradient">
+      <div class="page-inner py-5 px-4">
+        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+          <div class="pl-2">
+            <h2 class="display-4 text-white pb-2 ">Dashboard</h2>
+            <h5 class="text-white op-7 mb-2">Lead and Training dashboard</h5>
+          </div>
+          <!-- <div class="ml-md-auto py-2 py-md-0">
+            <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
+            <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+
+    <div class="page-inner mt--5">
+      <!-- -----------------------------------------------------content area -->
+	  <div class="mt--2 row">
+		<div class="col-md-6">
+		  <div class="card full-height">
+			<div class="card-body">
+			  <div class="card-title">Overall statistics</div>
+			  <div class="card-category">Daily information about statistics in system</div>
+			  <div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
+				<div class="px-2 pb-2 pb-md-0 text-center">
+				  <div id="circles-1"></div>
+				  <h6 class="fw-bold mt-3 mb-0" >In Queue</h6>
+				</div>
+				<div class="px-2 pb-2 pb-md-0 text-center">
+				  <div id="circles-2"></div>
+				  <h6 class="fw-bold mt-3 mb-0" >Products</h6>
+				</div>
+				<div class="px-2 pb-2 pb-md-0 text-center">
+				  <div id="circles-3"></div>
+				  <h6 class="fw-bold mt-3 mb-0">OnBoarded</h6>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+
+
+      
+
+
+
+
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">						
+              <div class="card-title fw-mediumbold">Recent VIP Users</div>
+            </div>
+            <div class="card-body">
+              <div class="card-list">
+                 {% for v in vip_list[:5]|reverse %}
+                <div class="item-list">
+                  <div class="avatar">
+                    <img src="../static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                  </div>
+                  <div class="info-user ml-3">
+                    <div class="username">{{v['company_name']}}</div>
+                    <div class="status">{{v['state']}}</div>
+                  </div>
+                  <button class="btn btn-icon btn-primary btn-round btn-xs">
+                    <i class="fa fa-info"></i>
+                  </button>
+                </div>
+                  {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Popular Products</div>
+            </div>
+            <div class="card-body pb-0">
+              <div class="d-flex">
+                <div class="avatar">
+                  <img src="../static/assets/img/product.png" alt="..." class="avatar-img rounded-circle">
+                </div>
+                <div class="flex-1 pt-1 ml-2">
+                  <h6 class="fw-bold mb-1">NSAC</h6>
+                  <small class="text-muted">Nexus Status and Communication</small>
+                </div>
+                <div class="d-flex ml-auto align-items-center">
+                  <h3 class="text-info fw-bold">+{{vip_count}}</h3>
+                </div>
+              </div>
+              <div class="separator-dashed"></div>
+              <div class="pull-in">
+                <canvas id="topProductsChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card card-primary bg-primary-gradient">
+            <div class="card-body">
+              <h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Active user right now</h4>
+              <h1 class="mb-4 fw-bold">17</h1>
+              <h4 class="mt-3 b-b1 pb-2 mb-5 fw-bold">Page view per minutes</h4>
+              <div id="activeUsersChart"></div>
+              <h4 class="mt-5 pb-3 mb-0 fw-bold">Top active pages</h4>
+              <ul class="list-unstyled">
+                <li class="d-flex justify-content-between pb-1 pt-1"><small>/product/readypro/index.html</small> <span>7</span></li>
+                <li class="d-flex justify-content-between pb-1 pt-1"><small>/product/atlantis/demo.html</small> <span>10</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- -----------------------------------------------------content area -->
+
+
+
+
+    </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+	$(document).ready(function() {
+		$('#basic-datatables').DataTable({
+		}); 
+	});
+</script>
+
+<script src="../static/assets/js/plugin/chart-circle/circles.min.js"></script>
+
+<!-- Chart Circle -->
+<script>
+		var user_data = '{{vip_count}}';
+		var prod_count = '{{prod_count}}';
+		var ob_count = '{{onboarded_count}}';
+
+		Circles.create({
+			id:'circles-1',
+			radius:45,
+			value:60,
+			maxValue:100,
+			width:7,
+			text: user_data,
+			colors:['#f1f1f1', '#FF9E27'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		});
+
+		Circles.create({
+			id:'circles-2',
+			radius:45,
+			value:70,
+			maxValue:100,
+			width:7,
+			text: prod_count,
+			colors:['#f1f1f1', '#2BB930'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		});
+
+		Circles.create({
+			id:'circles-3',
+			radius:45,
+			value:40,
+			maxValue:100,
+			width:7,
+			text: ob_count,
+			colors:['#f1f1f1', '#2b3cb9'],
+			duration:400,
+			wrpClass:'circles-wrp',
+			textClass:'circles-text',
+			styleWrapper:true,
+			styleText:true
+		});
+
+     
+</script>
+
+
+<script>
+	$(document).ready(function(){
+		var clicked;
+		$(".favorite").click(function(){
+			clicked = $(this).attr("name");
+			$.ajax({
+				type : 'POST',
+				url : "{{url_for('dashboard')}}",
+				contentType: 'application/json;charset=UTF-8',
+				data : {'data':clicked}
+			});
+		});
+	});
+</script>
+
+
+{% endblock %}

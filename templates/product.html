@@ -1,0 +1,149 @@
+{% extends "index.html" %}
+
+{% block prodPage %}
+
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+
+      <!-- --------------------------------------------breadcrump -->
+      <div class="page-header">
+        <h4 class="page-title">Product Entry</h4>
+
+        <ul class="breadcrumbs">
+          <li class="nav-home">
+            <a href="{{url_for('index')}}">
+              <i class="flaticon-home"></i>
+            </a>
+          </li>
+          <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+          </li>
+          <li class="nav-item">
+            <a href="#">Product Managemet</a>
+          </li>
+          <li class="separator">
+            <i class="flaticon-right-arrow"></i>
+          </li>
+          <li class="nav-item">
+            <a href="#">Products</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- --------------------------------------------breadcrump -->
+
+
+      <!-- -----------------------------------------------------content area -->
+      <div class="row">
+        <div class="col-md-12 ml-auto mr-auto">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Product Entry</div>
+            </div>
+
+            <div class="card-body">
+
+              <form class="" action="/save_product" method="post">
+                {{p_form.csrf_token}}
+                <div class="row form-group">
+                  <div class="col-lg-4 col-md-6 mb-2">
+                    <label for="prod_name">Product Name</label>
+                    {{ p_form.prod_name(class=f_class) }}
+                    <!-- <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                  </div>
+                  <div class="col-lg-4 col-md-6 mb-2">
+                    <label for="prod_price">Product Price</label>
+                    {{ p_form.prod_price(class=f_class) }}
+
+                  </div>
+
+                  <div class="col-12 text-left">
+                    {{ p_form.prod_create(class="btn btn-primary px-4 mt-4 mb-0") }}
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Product Info</h4>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="basic-datatables" class="display table table-striped table-hover" >
+                  <thead class="bg bg-info text-light">
+                    <tr>
+                      <th>Product Id</th>
+                      <th>Product Name</th>
+                      <th>Product Price</th>
+                      <th>Product_Creation_Date</th>
+                    </tr>
+                  </thead>
+                  
+                  <!-- <tfoot>
+                    <tr>
+                      <th>Product Id</th>
+                      <th>Product Name</th>
+                      <th>Product Price</th>
+                      <th>Product_Creation_Date</th>
+                    </tr>
+                  </tfoot> -->
+                  
+                  <tbody>
+                    {% for x in all_prod_list %}
+                    <tr>
+                      <td>{{x['Product_id']}}</td>
+                      <td>{{x['Product_name']}}</td>
+                      <td>{{x['Product_Price']}}</td>
+                      <td>{{x['Product_Creation_Date']}}</td>                      
+                    </tr>
+                    {% endfor %}
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+
+         
+      </div>
+      <!-- -----------------------------------------------------content area -->
+
+
+
+
+    </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+  $(document).ready(function() {
+    $('#basic-datatables').DataTable({
+    });
+  });
+</script>
+
+ 
+
+{% endblock %}
+

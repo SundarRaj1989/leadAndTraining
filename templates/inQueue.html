@@ -1,0 +1,329 @@
+{% extends "index.html" %}
+
+{% block inQueue %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">In Queue</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Lead & Training</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">In Queue</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+            <div class="row">
+              <div class="col-lg-6 text-left">
+                <h4 class="card-title">In Queue</h4>
+              </div>
+              <!-- <div class="col-lg-6 text-right">
+                <button type="submit" class="btn btn-round btn-icon btn-info">
+                  <i class="fa fa-refresh"></i>
+                </button>							
+              </div> -->
+            </div>
+                  
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="basic-datatables" class="display table table-striped table-hover" >
+                      <thead class="bg bg-info text-light">
+                <tr>
+                  <th>Company Name</th>
+                  <th>Address</th>
+                  <th>Email Id</th>
+                  <th>Product Name</th>
+                  <th>Pre-Order date</th>
+                  <th>Payment Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for x in all_vips %}
+                {% if x['lead_status'] == 'Pending' %}
+                <tr>
+                  <td>{{x['company_name']}}</td>
+                  <td>{{x['city']}}, {{x['state']}}, {{x['country']}}</td>
+                  <td>{{x['email_id']}}</td>
+                  <td>{{x['product_name']}}</td>  
+                  <td>{{x['preOrder_date']}}</td>  
+                  {% if x['preOrder_date'] %}
+                  <td>Paid</td>  
+                    {% else %}
+                    <td>Unpaid</td> 
+                  {% endif %}
+                  <td>
+                  <div class="form-button-action">
+                     
+                    
+                    {% if x['preOrder_date']%}
+                    <form action="{{url_for('approve', po_id = x['preOrder_id'])}}" method="post">
+                      <button type="submit" class="btn btn-icon btn-round btn-sm btn-success mr-2" data-toggle="tooltip" title="" data-original-title="Payment Confirmation">
+                        <i class="fa fa-check"></i>
+                      </button>
+                    </form>
+                    <form action="/reject/{{x['preOrder_id']}}" method="post">
+                      <button type="submit" class="btn btn-icon btn-round btn-sm btn-danger mr-2"  data-toggle="tooltip" title="" data-original-title="Reject">
+                        <i class="fa fa-ban"></i>
+                      </button>
+                    </form>	
+                    <button type="button" class="btn btn-icon btn-round btn-sm btn-primary" data-toggle="modal" data-target="#{{x['preOrder_id']}}">
+                      <i class="fa fa-envelope"></i>
+                                      </button>							
+                    
+                    {% else %}
+                    <form action="{{url_for('edit_unpaid', po_id = x['email_id'])}}">
+                      <button type="submit" class="btn btn-icon btn-round btn-sm btn-secondary mr-2" data-toggle="tooltip" title="" data-original-title="Edit">
+                        <i class="fa fa-edit"></i>
+                      </button>
+                    </form>
+                    <form action="/reject/{{x['email_id']}}" method="post">
+                      <button type="submit" class="btn btn-icon btn-round btn-sm btn-danger"  data-toggle="tooltip" title="" data-original-title="Reject">
+                        <i class="fa fa-ban"></i>
+                      </button>
+                    </form>
+                    {% endif %}
+                    
+                  </div>
+                  </td>                      
+                </tr>
+                <div class="modal fade" id="{{x['preOrder_id']}}">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Send Confirmation mail to : {{x['company_name']}}</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <form action="/send_confirmation_mail/{{x['email_id']}}/{{x['company_name']}}" method="post">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="uName">Email Id</label>
+                        <div class="input-group">                        
+                        
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">@</span>
+                          </div>
+                          <input type="email" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="Username" value="{{x['email_id']}}" disabled>
+                          
+                        </div>
+                        <!-- <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                      </div>
+                      <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter Subject" >
+                        
+                      </div>
+                      <div class="form-group">
+                        <label for="comment">Message</label>
+                        <textarea class="form-control" id="comment" name="cmnt" rows="4">
+    
+                        </textarea>
+                      </div>
+                    </div>
+                    
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-success btn-sm">Send Mail</button>
+                        <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Close</button>
+                    </div>
+                  </form>
+                    </div>
+                  </div>
+                  </div>
+                {% endif %}
+    
+                {% endfor %}
+                
+                
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            
+    
+             
+          </div>
+
+
+          <div class="row">
+            
+
+            
+        
+              <div class="col-8">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">
+                      In Queue Communication Log
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    {% for c in comm_log %}
+                      <div class="d-flex pb-4 ">
+                        <div class="avatar">
+                          <h6 class="avatar-title rounded-circle border fw-bold bg-dark">{{ c['company_name'][0]|upper}}{{ c['company_name'][1]|upper}}</h6>                        
+                        </div>
+
+                        <div class="flex-1 ml-3 pt-1">
+                          <h6 class="text-uppercase fw-bold mb-1">{{c['company_name']}}</h6> 
+                          <span class="text-muted">{{c['message']}}</span>
+                        </div>
+                        <div class="float-right pt-1">
+                          <small class="text-muted">{{c['communication_date']}}</small>
+                        </div>
+                      </div>
+                    {% endfor %}
+
+
+                     
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="card card-primary bg-primary-gradient">
+                  <div class="card-body">
+                    <h4 class="mt-3 b-b1 pb-2 mb-4 fw-bold">Reject List</h4> 
+                    
+                    {% for y in all_vips  %}
+                      {% if y['lead_status'] == 'rejected' %}
+                        <div class="d-flex pb-4">
+                          <div class="avatar">
+                              <span class="avatar-title rounded-circle border border-white bg-warning">{{ y['company_name'][0]|upper}}</span>
+                            
+                          </div>
+                          <div class="flex-1 ml-3 pt-1">
+                            
+                            <h4 class="text-uppercase fw-bold mb-1">{{y['company_name']}} <small class="badge badge-dark">{{y['payment_confirmation_date']}}</small></h4>
+                            <h6 class="">{{y['product_name']}}</h6>
+                          </div>
+                          
+                        </div>
+
+                         
+                      {% endif %}
+                    {% endfor %} 
+                    
+                     
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- <div class="col-md-4 ml-auto mr-auto">
+                <div class="card bg bg-primary text-light">
+                  <div class="card-header border-info">
+                    <div class="card-title text-light">Reject List</div>
+                  </div>
+
+                  <div class="card-body">
+                    {% for y in all_vips  %}
+                      {% if y['lead_status'] == 'rejected' %}
+                        <div class="d-flex pb-4">
+                          <div class="avatar">
+                            <div class="avatar">
+                              <img src="../static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-1 ml-3 pt-1">
+                            <h6 class="text-uppercase fw-bold mb-1">{{y['company_name']}} <span class="btn btn-warning pl-3">{{y['payment_confirmation_date']}}</span></h6>
+                            <span class="">Product - <strong class=" text-uppercase">{{y['product_name']}}</strong></span>
+                          </div>
+                          <div class="float-right pt-1">
+                            <small class="text-dark"></small>
+                          </div>
+                        </div>
+
+                        <div class="d-flex">
+                          <div class="avatar">
+                            <div class="avatar">
+                              <img src="../static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                          </div>
+                          <div class="flex-1 ml-3 pt-1">
+                            <h6 class="text-uppercase fw-bold mb-1">{{y['company_name']}} <span class="text-warning pl-3">{{y['lead_status']}}</span></h6>
+                            <span class="">Product - <strong class=" text-uppercase">{{y['product_name']}}</strong></span>
+                          </div>
+                          <div class="float-right pt-1">
+                            <small class="text-dark">{{y['payment_confirmation_date']}}</small>
+                          </div>
+                        </div>
+                        
+                        
+                      {% endif %}
+                    {% endfor %} 
+                     
+                    
+                  </div>
+
+                   
+                  
+                </div>
+
+                 
+            </div> -->
+          </div>
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+	$(document).ready(function() {
+		$('#basic-datatables').DataTable({
+		});
+    $('#basic-datatables3').DataTable({
+		});
+    $('#basic-datatables2').DataTable({
+		});
+	});
+</script>
+
+
+{% endblock %}

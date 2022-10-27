@@ -1,0 +1,269 @@
+{% extends "index.html" %}
+
+{% block onBoarding %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">On Boarding</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Lead & Training</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">On Boarding</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row">
+              <div class="col-md-12 ml-auto mr-auto">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-title">On Board List</div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                          <thead class="bg bg-info text-light">
+                            <tr>
+                              <th>Company Name</th>
+                              <th>Product</th>
+                              <th>On boarded date</th>
+                              <th>Assigned Trainer</th>
+                              <th>Estimated Delivery Month</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          
+                          
+
+                          <tbody>
+                            {% for x in onboarded %}
+                            <tr>
+                              <td>{{x['company_name']}}</td>
+                              <td>{{x['product_name']}}</td>
+                              <td>{{x['onboard_date']}} {{x['onboard_time']}}</td>
+                              <td><a href="/trainer_profile/{{x['trainer_id']}}"> {{x['trainer_name']}}</a></td>
+                              
+                              <td>{{x['estimated_delivery_month']}}</td>  
+                              <td>
+                                <button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#{{x['preOrder_id']}}">
+                                  Slot booking
+                                </button>
+                              </td>             
+                            </tr>
+
+                            <div class="modal fade" id="{{x['preOrder_id']}}">
+                              <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                  <h4 class="modal-title">Allot slot to {{x['company']}}</h4>
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+            
+                                
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                   
+                                  <h6 class="text-muted">No slots allocated to <span class="fw-bold">{{x['company']|upper}}</span> yet</h6>
+
+                                  <form action="/allocate_slot/{{x['preOrder_id']}}" method="post">
+                                  <div class="row pt-2">
+                                       
+                                      
+                                      <div class="col-lg-6">
+                                        <div class="row">
+                                          <div class="col-lg-12">
+                                            <div class="form-group">
+                                              <label for="training_date">Training Start Date & Time</label>
+                                              <input type="date" class="form-control" id="training_date" name="training_date" placeholder="Training starting date" >                                          
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">
+                                              <select class="form-control" id="slot_hr" name="slot_hr">
+                                                <option>Hour</option>
+                                                {% for i in range(1, 13) %}
+                                                <option value="{{i}}">{{i}}</option>      
+                                                {% endfor %}                                      
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">
+                                              <select class="form-control" id="slot_mnt" name="slot_mnt">                                            
+                                                <option>Minute</option>
+                                                <option value="00">00</option>                         
+                                                <option value="15">15</option>                         
+                                                <option value="30">30</option>                         
+                                                <option value="45">45</option>                         
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">  
+                                              <select class="form-control" id="slot_period" name="slot_period">  
+                                                <option>Select Time Period</option>
+                                                <option value="AM">AM</option>      
+                                                <option value="PM">PM</option>      
+                                                
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+
+                                      <div class="col-lg-6">
+                                        <div class="row">
+                                          <div class="col-lg-12">
+                                            <div class="form-group">
+                                              <label for="training_end_date">Training End Date & Time</label>
+                                              <input type="date" class="form-control" id="training_end_date" name="training_end_date" placeholder="Training Ending date" >                                          
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">
+                                              <select class="form-control" id="end_slot_hr" name="end_slot_hr">
+                                                <option>Hour</option>
+                                                {% for i in range(1, 13) %}
+                                                <option value="{{i}}">{{i}}</option>      
+                                                {% endfor %}                                      
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">
+                                              <select class="form-control" id="end_slot_mnt" name="end_slot_mnt">                                            
+                                                <option>Minute</option>
+                                                <option value="00">00</option>                         
+                                                <option value="15">15</option>                         
+                                                <option value="30">30</option>                         
+                                                <option value="45">45</option>                         
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-lg-4">
+                                            <div class="form-group">  
+                                              <select class="form-control" id="end_slot_period" name="end_slot_period">  
+                                                <option>Select Time Period</option>
+                                                <option value="AM">AM</option>      
+                                                <option value="PM">PM</option>      
+                                                
+                                              </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        
+                                      </div>
+
+                                       
+                                  </div>
+                                  
+
+                                   
+                                
+                                </div>
+                                
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                  <button type="submit" class="btn btn-success btn-sm">on Board</button>
+                                    <button type="button" class="btn btn-dark btn-sm" data-dismiss="modal">Close</button>
+                                </div>
+                              </form>
+                                </div>
+                              </div>
+                              </div>
+                            {% endfor %}
+                            
+                          </tbody>
+                          
+                          
+                        </table>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                   
+              </div>
+          </div>
+
+
+
+          <div class="row">
+            {% for ob in onboarded %}
+            {% if ob['training_slot_assigned'] %}
+            <div class="col-lg-4">
+              <div class="card card-info bg-info-gradient text-light">
+                  <div class="card-header">
+                    <div class="card-title">
+                      <h3 class="fw-bold text-light">{{ ob['company_name']}}</h3>
+                    </div>
+                  </div>
+
+                  <div class="card-body">
+                    <h6>Product : <span class="fw-bold ">{{ob['product_name']|upper}}</span></h6>
+                    <h6>Trainer : <span class="fw-bold">{{ob['trainer_name']|upper}}</span></h6>
+                    <h6>Training start Date : <span class="fw-bold">{{ob['training_start_date_time']}}</span></h6>
+                    <h6>Training End Date : <span class="fw-bold">{{ob['training_end_date_time']}}</span></h6>
+                    
+                    <!-- <a href="#" class="btn btn-warning text text-dark btn-sm">Training Paused</a> -->
+                    <a href="#" class="btn btn-success btn-sm">Training Completed</a>
+                    <a href="/cancel_training/{{ob['product_id']}}" class="btn btn-danger btn-sm">Training Cancelled</a>
+                  </div>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+
+
+
+           
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+  $(document).ready(function() {
+    $('#basic-datatables').DataTable({
+    });
+  });
+</script>
+
+{% endblock %}

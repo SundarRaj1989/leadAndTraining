@@ -1,0 +1,302 @@
+{% extends "index.html" %}
+
+{% block trainer %}
+
+<div class="main-panel">
+  <div class="content">
+      <div class="page-inner">
+
+          <!-- --------------------------------------------breadcrump -->
+          <div class="page-header">
+              <h4 class="page-title">Add Trainer</h4>
+
+              <ul class="breadcrumbs">
+                <li class="nav-home">
+                  <a href="#">
+                    <i class="flaticon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Lead & Training</a>
+                </li>
+                <li class="separator">
+                  <i class="flaticon-right-arrow"></i>
+                </li>
+                <li class="nav-item">
+                  <a href="#">Trainer</a>
+                </li>
+              </ul>
+
+          </div>
+          <!-- --------------------------------------------breadcrump -->
+
+
+          <!-- -----------------------------------------------------content area -->
+          <div class="row">
+            <div class="col-md-12 ml-auto mr-auto">
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-title">Add Trainers</div>
+                  </div>
+
+                  <div class="card-body">
+                     <form class="" action="{{url_for('save_trainer')}}" method="POST">
+                       {{t_form.csrf_token}}
+
+                       <div class="row form-group">
+                        <div class="col-lg-3 col-md-6 mb-2">
+                          {{ t_form.trainer_f_name(class=input_class) }}
+                        </div>
+                        <div class="col-lg-3 col-md-6 mb-2">
+                          {{ t_form.trainer_l_name(class=input_class) }}
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          {{ t_form.designation(class=input_class) }}
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          {{ t_form.email_id(class=input_class) }}
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          {{ t_form.c_num(class=input_class) }}
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                          <div class="row pl-3 pr-3">
+                            <div class="col-6 form-control pt-2 pb-0 ">
+                              <label class="custom-control custom-checkbox">
+                                {{t_form.country_2(onclick="myConFunction()", class="custom-control-input")}} 
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label float-left">US</span>
+                              </label>
+                            </div>
+                            <div class="col-6 form-control pt-2 pb-0 ">
+                              <label class="custom-control custom-checkbox">
+                                {{t_form.country_1(onclick="myConFunction()", class="custom-control-input")}} 
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-label float-left">Canada</span>
+                              </label>
+                            </div>
+                          </div>
+                      </div>
+
+                      <div class="input-group col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-2 d-none" id="caNstates"  >
+                        {{t_form.ca_States(class=input_class)}}
+                        
+                    </div>
+        
+                    <div class="input-group col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-2 d-none" id="uSstates"  >
+                       {{t_form.us_States(class=input_class)}}
+                    </div>
+        
+                    <div class="input-group col-lg-3 col-md-6 col-sm-12 col-xs-12 mb-2 d-flex" id="empty_field" >
+                        {{t_form.emp_fld(class=input_class)}}
+                    </div>
+                        <!-- <div class="col-lg-3 col-md-6 mb-2">
+                          {{ t_form.state(class=input_class) }}
+                        </div> -->
+
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          {{ t_form.city(class=input_class) }}
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          {{ t_form.nexus_product(class=input_class) }}
+                        </div>
+
+                        
+                        <div class="col-md-12 col-lg-12 text-left ">
+                          <div class="">
+                            {{ t_form.submit(class="btn btn-primary btn-sm")}}
+                            
+                          </div>
+                        </div>
+                      
+                      </div>
+                     </form>
+                  </div>
+                  
+                </div>
+
+                 
+            </div>
+        </div>
+
+
+          <!-- <div class="row">
+              <div class="col-md-12 ml-auto mr-auto">
+                  <div class="card">
+                    <div class="card-header">
+                      <div class="card-title">Trainers</div>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table id="basic-datatables" class="display table table-striped table-hover" >
+                          <thead class="bg bg-info text-light">
+                            <tr>
+                              <th>Trainer Name</th>
+                              <th>Designation</th>
+                              <th>Email Id</th>
+                              <th>Mobile Number</th>
+                              <th>Address</th>
+                              <th>Product</th>
+                              <th>Trainer registration date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          
+                          
+
+                          <tbody>
+                            {% for x in trainer_list %}
+                            <tr>
+                              <td>{{x['first_name']}} {{x['last_name']}}</td>
+                              <td>{{x['designation']}}</td>
+                              <td>{{x['email_id']}}</td>
+                              <td>{{x['Contact_num']}}</td> 
+                              <td>{{x['country']}}, {{x['state']}}, {{x['city']}}</td>
+                              <td>{{x['product']}}</td>
+                              <td>{{x['trainer_registration_date']}}</td>        
+                              <td>
+                                <form action="" method="post">
+                                <button type="button" class="btn btn-icon btn-round btn-sm btn-success mr-2" data-toggle="tooltip" title="" data-original-title="Edit a trainer">
+                                  <i class="fa fa-edit"></i>
+                                </button>                                
+                              </form>
+                              </td>             
+                            </tr>
+                            {% endfor %}
+                            
+                          </tbody>
+                          
+                          
+                        </table>
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                   
+              </div>
+          </div> -->
+
+
+
+          <div class="row">
+            {% for x in trainer_list %}
+              <div class="col-lg-4">
+                <div class="card card-profile">
+                  <div class="card-header card-header-bg" >
+                    <div class="profile-picture">
+                      <div class="avatar avatar-xl">
+                        <img src="../static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div class="user-profile text-center">
+                      <div class="name">{{x['first_name']}} {{x['last_name']}}</div>
+                      <div class="job">{{x['designation']}}</div>
+                      <div class="desc "><i class="icon-envelope text-dark font-weight-bold"></i> {{x['email_id']}}&nbsp;&nbsp;&nbsp; <i class="icon-screen-smartphone text-dark font-weight-bold"></i> {{x['Contact_num']}}</div>
+                      <!-- <div class="social-media">
+                        <a class="btn btn-info btn-twitter btn-sm btn-link" href="#"> 
+                          <span class="btn-label just-icon"><i class="flaticon-twitter"></i> </span>
+                        </a>
+                        <a class="btn btn-danger btn-sm btn-link" rel="publisher" href="#"> 
+                          <span class="btn-label just-icon"><i class="flaticon-google-plus"></i> </span> 
+                        </a>
+                        <a class="btn btn-primary btn-sm btn-link" rel="publisher" href="#"> 
+                          <span class="btn-label just-icon"><i class="flaticon-facebook"></i> </span> 
+                        </a>
+                        <a class="btn btn-danger btn-sm btn-link" rel="publisher" href="#"> 
+                          <span class="btn-label just-icon"><i class="flaticon-dribbble"></i> </span> 
+                        </a>
+                      </div> -->
+                      <div class="view-profile">
+                        <a href="/trainer_profile/{{x['trainer_id']}}" class="btn btn-info btn-block">View Full Profile</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="row user-stats text-center">
+                      <div class="col">
+                        <div class="number">125</div>
+                        <div class="title">Post</div>
+                      </div>
+                      <div class="col">
+                        <div class="number">25K</div>
+                        <div class="title">Followers</div>
+                      </div>
+                      <div class="col">
+                        <div class="number">134</div>
+                        <div class="title">Following</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+          <!-- -----------------------------------------------------content area -->
+
+
+
+
+      </div>
+  </div>
+</div>
+
+<!--   Core JS Files   -->
+<script src="../static/assets/js/core/jquery.3.2.1.min.js"></script>
+<!-- Datatables -->
+<script src="../static/assets/js/plugin/datatables/datatables.min.js"></script>
+
+
+<script >
+  $(document).ready(function() {
+    $('#basic-datatables').DataTable({
+    });
+  });
+</script>
+
+<script>
+  function myConFunction() {
+  var checkBox1 = document.getElementById("country_1");
+  var checkBox2 = document.getElementById("country_2");
+  var ca = document.getElementById("caNstates");
+  var us = document.getElementById("uSstates");
+  var emp_fld = document.getElementById("empty_field");    
+
+  if (checkBox1.checked == true){
+    ca.required = true;
+    us.required = false;
+    emp_fld.classList.remove('d-flex');
+    emp_fld.classList.add('d-none');
+    ca.classList.remove('d-none');
+    ca.classList.add('d-flex');
+    checkBox2.disabled = true;
+  } else if (checkBox2.checked == true){
+    us.required = true;
+    ca.required = false;
+    us.classList.remove('d-none');
+    us.classList.add('d-flex');
+    emp_fld.classList.remove('d-flex');
+    emp_fld.classList.add('d-none');
+    checkBox1.disabled = true;
+    ca.style.display = "none";
+  } else {
+     checkBox1.disabled = false;
+     checkBox2.disabled = false;
+    us.classList.remove('d-flex');
+    us.classList.add('d-none');
+    ca.classList.remove('d-flex');
+    ca.classList.add('d-none');
+    emp_fld.classList.add('d-flex');
+  }
+}
+</script>
+
+{% endblock %}
